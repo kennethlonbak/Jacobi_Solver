@@ -130,8 +130,8 @@ MODULE declare_var
 
         IF (solver_type == 2) THEN
             WRITE(61,*) "solver_type= Gauss-Seidel"
-        ELSE IF (solver_type == 3) THEN
-            WRITE(61,"(A,I2)") "solver_type= Jacobi Pal 1, N_threads: ", N_th
+        ELSE IF (solver_type > 2) THEN
+            WRITE(61,"(A,I1,A,I2)") "solver_type= Jacobi Pal ", solver_type-2, " N_threads: ", N_th
         ELSE
             WRITE(61,*) "solver_type= Jacobi"
         end if

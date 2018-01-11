@@ -1,5 +1,5 @@
 TARGET	= JACOBI_SOLVER
-OBJS	= read_arg.o declare_var.o Jacobi_Solver.o main.o GS_Solver.o
+OBJS	= read_arg.o declare_var.o Jacobi_Solver.o GS_Solver.o main.o
 
 FC  	= f95
 FFLAGS = -free -xopenmp -xvpara -xloopinfo

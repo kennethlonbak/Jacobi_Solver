@@ -2,7 +2,7 @@ import pylab as py
 import plot_convergence as PC
 
 def main():
-    filename = "DATA/DATA_N0160.dat"
+    filename = "DATA/DATA_N0100_Nt04.dat"
     # Load data
     print("Reading data file: %s" % filename)
     info, data = PC.read_data(filename,9)

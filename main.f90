@@ -22,12 +22,13 @@ program main
         CALL set_f_problem
     end if
 
-
     ! Solve via Jacobi solver
     IF (solver_type == 2) THEN
         CALL GS_Solver(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
     ELSE IF (solver_type == 3) THEN
         CALL Jacobi_Solver_pal1(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
+    ELSE IF (solver_type == 3) THEN
+        CALL Jacobi_Solver_pal2(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
     ELSE
         CALL Jacobi_Solver(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
     end if
