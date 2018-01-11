@@ -5,7 +5,7 @@ def main():
     Ns = py.array([1,2,4,8,16,32])
     info_JAC = []
     for N in Ns:
-        filename = "DATA/pal2_N0200_Nt%02d.dat" % N
+        filename = "DATA/pal1_N0400_Nt%02d.dat" % N
         info, data = PC.read_data(filename)
         info["lat"] = info["N"]*info["k"] / info["Wall_time"]
         info_JAC.append(info)
