@@ -1,11 +1,13 @@
 import pylab as py
 
 def main():
-    Ns = [20,40,80,160,320]
+    Ns = py.array([20,40,80,160,320])
+    un_factor = 1
     infos = []
     max_error = []
     for N in Ns:
-        filename = "DATA/jaccon_N%04d.dat"%N
+        filename = "DATA/gscon_N%04d.dat"%N
+        filename = "DATA/jaccon_N%04d.dat" % N
         info, data = read_data(filename)
         dx = 2/(N-1)
         x = py.arange(N)*dx-1
@@ -14,21 +16,27 @@ def main():
         y_grid = y_grid.transpose()
         ref_data = py.sin(py.pi*x_grid)*py.sin(py.pi*y_grid)
 
-        max_error.append(py.amax(py.amax(abs(4*data-ref_data))))
+        max_error.append(py.amax(py.amax(abs(un_factor*data-ref_data))))
         infos.append(info)
+
+    # Fitting
+    a, b = py.polyfit(py.log(Ns),py.log(max_error),1)
 
 
     fig,ax = py.subplots(1,1,figsize=(6,4))
     ax.loglog(Ns,max_error,'.-')
+    ax.loglog(Ns,py.log(b)*Ns**a,label=r"Fit: Err $\propto N^{%2.2f}$"%a)
     ax.grid('on')
     ax.set_xlabel("N (grid size)")
-    ax.set_ylabel("max|$u_{solver}-u_{ref}$| (max error)")
+    ax.set_ylabel("max|%d$u_{solver}-u_{ref}$| (max error)"%un_factor)
+    ax.set_title("Solver type: " + infos[0]["solver_type"])
+    ax.legend()
     py.tight_layout()
     py.show()
 
-def read_data(filename):
-    header_lines = 7
-    data = py.loadtxt(filename, skiprows=header_lines)
+def read_data(filename, header_lines = 8):
+
+    data = py.loadtxt(filename, skiprows=header_lines).transpose()
     info = {}
     with open(filename,"r") as file:
         for i in range(header_lines):

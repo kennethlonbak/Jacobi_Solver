@@ -2,7 +2,7 @@ TARGET	= JACOBI_SOLVER
 OBJS	= read_arg.o declare_var.o Jacobi_Solver.o main.o GS_Solver.o
 
 FC  	= f95
-FFLAGS = -free
+FFLAGS = -free -xopenmp -xvpara -xloopinfo
 
 OUTPUT_FILE = Test.dat
 
@@ -18,11 +18,6 @@ clean:
 	@/bin/rm -fv declare_var.mod
 	@/bin/rm -fv m_jacobi_solver.mod
 
-
-run: $(OUTPUT_FILE)
-	$(target)
-
-.PHONY: run
 
 %.o: %.f90
 	$(FC) $(FFLAGS) -c $<
