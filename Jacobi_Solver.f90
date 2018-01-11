@@ -78,14 +78,14 @@ MODULE m_jacobi_solver
         wall_time = omp_get_wtime()
         DO k = 1,k_max
             d = 0d0
-            !$omp parallel do private(i,j)
+            !$omp parallel do private(i,j) reduction(+: d)
             DO i=2,N-1
                 DO j=2,N-1
                     ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
                     d = d + (ukp1(i,j)-uk(i,j))**2
                 END DO
             END DO
-            !$omp end parallel  do
+            !$omp end parallel do
 
             ! Build convergence cretia
             IF (d < d_min.and.(k > 10)) exit
