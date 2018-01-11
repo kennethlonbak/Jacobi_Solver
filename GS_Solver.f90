@@ -1,6 +1,6 @@
-MODULE m_jacobi_solver
+MODULE m_GS_solver
     CONTAINS
-    SUBROUTINE Jacobi_Solver(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
+    SUBROUTINE GS_Solver(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
         use declare_var, ONLY: MK
         use omp_lib
         IMPLICIT NONE
@@ -20,13 +20,13 @@ MODULE m_jacobi_solver
         IF (.NOT.PRESENT(mod_state)) mod_state = 20
 
         WRITE(*,*)
-        WRITE(*,*) "Starting Jacobi iterations. (k_max=",k_max," N=",N," d_min=",d_min,")"
+        WRITE(*,*) "Starting Gauss-Seidel iterations. (k_max=",k_max," N=",N," d_min=",d_min,")"
         wall_time = omp_get_wtime()
         DO k = 1,k_max
             d = 0d0
             DO i=2,N-1
                 DO j=2,N-1
-                    ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
+                    ukp1(i,j) = (ukp1(i,j-1)+uk(i,j+1)+ukp1(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
                     d = d + (ukp1(i,j)-uk(i,j))**2
                 END DO
             END DO
@@ -52,5 +52,5 @@ MODULE m_jacobi_solver
         end if
         WRITE(*,*) "Wall time=", wall_time, " secounds"
 
-    END SUBROUTINE Jacobi_Solver
-end module m_jacobi_solver
+    END SUBROUTINE GS_Solver
+end module m_GS_solver

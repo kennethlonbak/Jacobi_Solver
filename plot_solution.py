@@ -1,10 +1,10 @@
 import pylab as py
 
 def main():
-    filename = "DATA_N0640.dat"
+    filename = "DATA_N0320.dat"
     # Load data
     info, data = read_data(filename)
-    print(info)
+    print("Reading data file: %s"%filename)
     N = info["N"]
     dx = 2/(N-1)
     x = py.arange(N)*dx-1
