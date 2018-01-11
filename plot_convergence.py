@@ -68,5 +68,9 @@ def isfloat(value):
   except:
     return False
 
+def get_data(infos, field):
+    out = [data[field] for data in infos]
+    return(py.array(out))
+
 if __name__ == "__main__":
     main()

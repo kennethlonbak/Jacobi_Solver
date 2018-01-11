@@ -76,29 +76,26 @@ MODULE m_jacobi_solver
         WRITE(*,*)
         WRITE(*,*) "Starting Jacobi parallel 1. iterations. (k_max=",k_max," N=",N," d_min=",d_min,")"
         wall_time = omp_get_wtime()
-        !$omp parallel shared(k)
         DO k = 1,k_max
             d = 0d0
-            !$omp do private(i,j)
+            !$omp parallel do private(i,j)
             DO i=2,N-1
                 DO j=2,N-1
                     ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
                     d = d + (ukp1(i,j)-uk(i,j))**2
                 END DO
             END DO
-            !$omp end do
+            !$omp end parallel  do
 
             ! Build convergence cretia
             IF (d < d_min.and.(k > 10)) exit
 
-            !$omp master
+
             IF (MOD(k,mod_state)==0.and.show_state) THEN
                 WRITE(*,"(A,I6,A,ES8.2E2,A)") " Solution is not converged yet. (k= ",k,", d= ",d,")"
             end if
-            !$omp end master
             uk = ukp1
         end do
-        !$omp end parallel
         wall_time = omp_get_wtime()-wall_time
         IF (k > k_max) THEN
             WRITE(*,*)
