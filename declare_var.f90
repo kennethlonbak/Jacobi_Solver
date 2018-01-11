@@ -9,7 +9,7 @@ MODULE declare_var
     REAL(MK) :: dx, dx2, wall_time
     INTEGER :: solver_type ! Solver type: 1= Jacobi, 2=Gauss-Seidel
     INTEGER :: mod_state, problem
-    LOGICAL :: show_state
+    LOGICAL :: show_state, write_mat
 
     CONTAINS
     SUBROUTINE initilize
@@ -54,6 +54,9 @@ MODULE declare_var
 
         ! Setting mod_state
         mod_state = read_vari_arg("mod_state",20)
+
+        ! Writing the full matrix in output file
+        write_mat = read_vari_arg("write_mat",.true.)
 
         ! Grid spacing
         dx = 2d0/(N-1)
@@ -107,9 +110,10 @@ MODULE declare_var
         end do
     END SUBROUTINE set_f_problem
 
-    SUBROUTINE write_matrix(mat, filename)
+    SUBROUTINE write_matrix(mat, filename, write_mat)
         REAL(MK), DIMENSION(:,:), INTENT(IN) :: mat
         CHARACTER(LEN=*), INTENT(IN) :: filename
+        LOGICAL :: write_mat
         INTEGER :: i,j
 
         OPEN(61, FILE=filename, action="write")
@@ -141,13 +145,24 @@ MODULE declare_var
         ELSE
             WRITE(61,*) "problem= Problem"
         end if
-        ! writing out matrix
-        DO i = 1,N
-            DO j = 1,N
-                WRITE(61,"(E16.8E2,A)",advance="no") mat(i,j), " "
+
+        IF (write_mat) THEN
+            WRITE(61,*) "write_mat= True"
+        ELSE
+            WRITE(61,*) "write_mat= False"
+        end if
+
+        IF (write_mat) THEN
+            ! writing out matrix
+            DO i = 1,N
+                DO j = 1,N
+                    WRITE(61,"(E16.8E2,A)",advance="no") mat(i,j), " "
+                END DO
+                WRITE(61,"(A)")
             END DO
-            WRITE(61,"(A)")
-        END DO
+        ELSE
+            WRITE(61,*) 0D0, 0D0
+        END IF
         CLOSE(61)
     END SUBROUTINE write_matrix
 

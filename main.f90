@@ -35,7 +35,7 @@ program main
     end if
 
     ! Write out soulution to text file
-    CALL write_matrix(ukp1,filename)
+    CALL write_matrix(ukp1,filename,write_mat)
 
     WRITE(*,*) "------------------------------ ENDING SOLVER -----------------------------------"
     WRITE(*,*)
