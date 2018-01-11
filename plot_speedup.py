@@ -1,6 +1,7 @@
 import pylab as py
 import plot_convergence as PC
 
+# Make multiple file read possible from arguments
 def main():
     Ns = py.array([1,2,4,6,12,16,24])
     info_JAC = []

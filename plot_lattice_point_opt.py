@@ -7,24 +7,25 @@ def main():
     for N in Ns:
         filename = "DATA/jaccon_N%04d.dat" % N
         info, data = PC.read_data(filename)
-        info["lat"] = info["N"]*info["k"] / info["Wall_time"]
+        info["lat"] = info["N"]**2*info["k"] / info["Wall_time"]
         info_JAC.append(info)
     info_GS = []
     for N in Ns:
         filename = "DATA/gscon_N%04d.dat" % N
         info, data = PC.read_data(filename)
-        info["lat"] = info["N"]*info["k"] / info["Wall_time"]
+        info["lat"] = info["N"]**2*info["k"] / info["Wall_time"]
         info_GS.append(info)
 
 
-    fig,ax = py.subplots(1,1,figsize=(12,7))
+    fig,ax = py.subplots(1,1,figsize=(6,4))
     ax.loglog(Ns,PC.get_data(info_JAC, "lat"),'.-',label="Jacobi")
     ax.loglog(Ns,PC.get_data(info_GS, "lat"),'.-',label="Gauss-Seidel")
-    ax.grid('on')
+    ax.grid('on',which='minor')
     ax.set_xlabel("N (grid size)")
-    ax.set_ylabel("lattice site updates per second")
+    ax.set_ylabel(r"$N²k/t_{wall}$ ($\propto FLOPS/s$)")
     ax.legend()
     py.tight_layout()
+    fig.savefig(PC.fig_path+"lat.png")
     py.show()
 
 

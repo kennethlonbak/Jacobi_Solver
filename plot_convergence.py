@@ -1,5 +1,7 @@
 import pylab as py
 
+fig_path = r"../Latex/Figures/"
+
 def main():
     Ns = py.array([20,40,80,160,320])
     infos = []
@@ -21,9 +23,6 @@ def main():
             infos[-1].append(info)
     max_error = py.array(max_error)
 
-
-
-
     fig,ax = py.subplots(1,1,figsize=(6,4))
     # Fitting
     for ii, err in enumerate(max_error):
@@ -36,6 +35,7 @@ def main():
     ax.set_ylabel("max|$u_{solver}-u_{ref}$| (max error)")
     ax.legend()
     py.tight_layout()
+    fig.savefig(fig_path+"con.png")
     py.show()
 
 def read_data(filename, header_lines = 9):
