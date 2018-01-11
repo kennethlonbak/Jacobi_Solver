@@ -2,7 +2,7 @@ import pylab as py
 import plot_convergence as PC
 
 def main():
-    Ns = py.array([1,2,4,8,16,32])
+    Ns = py.array([1,2,4,6,12,16,24])
     info_JAC = []
     for N in Ns:
         filename = "DATA/pal1_N0400_Nt%02d.dat" % N

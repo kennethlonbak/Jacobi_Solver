@@ -2,3 +2,4 @@
 *.o
 DATA*
 JACOBI_SOLVER
+Transfer_files.sh
