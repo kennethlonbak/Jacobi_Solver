@@ -4,6 +4,7 @@ program main
     USE m_gs_solver
     USE declare_var
 
+    WRITE(*,*) "--------------------------- STARTING SOLVER ------------------------------------"
     ! Initlize variabels
     CALL initilize()
 
@@ -35,4 +36,7 @@ program main
 
     ! Write out soulution to text file
     CALL write_matrix(ukp1,filename)
+
+    WRITE(*,*) "------------------------------ ENDING SOLVER -----------------------------------"
+    WRITE(*,*)
 end program main

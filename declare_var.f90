@@ -33,8 +33,8 @@ MODULE declare_var
 
         ! Setting output filename
         filename = "A"
-        IF (filename /= read_vari_arg_char("filesub",filename)) THEN
-            temp_name = read_vari_arg_char("filesub",filename)
+        IF (filename /= read_vari_arg_char("filesub",filename,.false.)) THEN
+            temp_name = read_vari_arg_char("filesub",filename,.true.)
             IF (solver_type > 2) THEN
                 WRITE(filename,"(A,A,A,I4.4,A,I2.2,A)") "DATA/",TRIM(temp_name),"_N",N,"_Nt", N_th,".dat"
             ELSE
@@ -47,7 +47,7 @@ MODULE declare_var
                 WRITE(filename,"(A,I4.4,A)") "DATA/DATA_N",N,".dat"
             END IF
         end if
-        filename = read_vari_arg("filename",filename)
+        filename = read_vari_arg("filename",filename,.true.)
 
         ! Show state
         show_state = read_vari_arg("show_state",.true.)

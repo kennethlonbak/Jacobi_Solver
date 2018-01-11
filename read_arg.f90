@@ -46,12 +46,14 @@ module read_arg
         end do
     END FUNCTION read_vari_arg_double
 
-    FUNCTION read_vari_arg_char(var_name,default_val)
+    FUNCTION read_vari_arg_char(var_name,default_val,loc_print)
         CHARACTER(LEN=200) :: read_vari_arg_char
         CHARACTER(LEN=*), INTENT(IN) :: var_name
         CHARACTER(LEN=*), INTENT(IN) :: default_val
+        LOGICAL, OPTIONAL :: loc_print
         INTEGER :: i, i_arg
         CHARACTER(LEN=200) :: arg
+        IF (.NOT.PRESENT(loc_print)) loc_print = .true.
         read_vari_arg_char = default_val
         DO i = 1,iargc()
             CALL GETARG(i,arg)
@@ -61,7 +63,9 @@ module read_arg
                 IF (LEN(var_name) == i_arg-1) THEN
                     arg = arg(i_arg+1:len(arg))
                     read_vari_arg_char = arg
-                    WRITE(*,*) "The variable ", var_name, " was set,", var_name,"=",read_vari_arg_char
+                    IF (loc_print) THEN
+                        WRITE(*,*) "The variable ", var_name, " was set,", var_name,"=",TRIM(read_vari_arg_char)
+                    END IF
                 END IF
             end if
         end do

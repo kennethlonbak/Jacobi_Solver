@@ -17,6 +17,8 @@ clean:
 	@/bin/rm -fv $(OBJS)
 	@/bin/rm -fv declare_var.mod
 	@/bin/rm -fv m_jacobi_solver.mod
+	@/bin/rm -fv read_arg.mod
+	@/bin/rm -fv m_gs_solver.mod
 
 
 %.o: %.f90
