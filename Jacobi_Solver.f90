@@ -147,8 +147,9 @@ MODULE m_jacobi_solver
 
             ! Build convergence cretia
             !IF (d < d_min.and.(k > 10)) exit
-
+            !$omp workshare
             uk = ukp1
+            !$omp end workshare
 
         end do
         !$omp end parallel
