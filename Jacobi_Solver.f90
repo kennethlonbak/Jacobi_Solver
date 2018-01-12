@@ -133,10 +133,10 @@ MODULE m_jacobi_solver
         WRITE(*,*) "** Starting Jacobi parallel v2. (and timeing) **"
         WRITE(*,*) " N=",N, " k_max=",k_max, " N_th=",omp_get_num_threads()," d_min=",d_min
         wall_time = omp_get_wtime()
-        !$omp parallel default(none) shared(k,uk,ukp1,fdx2,N,k_max) private(i,j) reduction(+: d)
+        !$omp parallel default(none) shared(k,uk,ukp1,fdx2,N,k_max) private(i,j)
         DO k = 1,k_max
             d = 0d0
-            !$omp do
+            !$omp do reduction(+: d)
             DO i=2,N-1
                 DO j=2,N-1
                     ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
