@@ -28,7 +28,7 @@ program main
         CALL GS_Solver(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
     ELSE IF (solver_type == 3) THEN
         CALL Jacobi_Solver_pal1(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
-    ELSE IF (solver_type == 3) THEN
+    ELSE IF (solver_type == 4) THEN
         CALL Jacobi_Solver_pal2(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
     ELSE
         CALL Jacobi_Solver(N,k_max,d_min,uk,ukp1,fdx2,wall_time,k,d,show_state,mod_state)
