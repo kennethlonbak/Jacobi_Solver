@@ -22,10 +22,11 @@ def main():
 
         info[filename]["Wall_time"] = py.array([info[filename][N]["Wall_time"] for N in Ns])
         info[filename]["Sp"] = info[filename]["Wall_time"][0]/info[filename]["Wall_time"]
+        info[filename]["T1"] = info[filename]["Wall_time"][0]
 
     fig, ax = py.subplots(1, 1, figsize=PC.fig_size)
     for filename in info:
-        ax.plot(Ns, info[filename]["Sp"], '.-',label=filename)
+        ax.plot(Ns, info[filename]["Sp"], '.-',label=filename +" T1=%1.1e"%info[filename]["T1"])
     ax.plot(py.arange(0,Ns[-1]), py.arange(0,Ns[-1]), 'k-',label="Ideal")
     ax.grid('on')
     ax.set_xlabel("N threads")
