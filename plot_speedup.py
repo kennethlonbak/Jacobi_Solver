@@ -25,7 +25,7 @@ def main():
         info[filename]["T1"] = info[filename]["Wall_time"][0]
         info[filename]["k"] = info[filename][1]["k"]
         info[filename]["N"] = info[filename][1]["N"]
-        info[filename]["lat"] = info[filename]["k"]*info[filename]["N"]/info[filename]["Wall_time"]
+        info[filename]["lat"] = info[filename]["k"]*info[filename]["N"]**2/info[filename]["Wall_time"]
 
 
     # Plotting speed up effeciency
