@@ -74,7 +74,8 @@ MODULE m_jacobi_solver
         IF (.NOT.PRESENT(mod_state)) mod_state = 20
 
         WRITE(*,*)
-        WRITE(*,*) "Starting Jacobi parallel 1. iterations. (k_max=",k_max," N=",N," d_min=",d_min,")"
+        WRITE(*,*) "** Starting Jacobi parallel v1. (and timeing) **"
+        WRITE(*,*) " N=",N, "k_max=",k_max, "N_th=",omp_get_num_threads()," d_min=",d_min
         wall_time = omp_get_wtime()
         DO k = 1,k_max
             d = 0d0
@@ -129,12 +130,13 @@ MODULE m_jacobi_solver
         IF (.NOT.PRESENT(mod_state)) mod_state = 20
 
         WRITE(*,*)
-        WRITE(*,*) "Starting Jacobi parallel 1. iterations. (k_max=",k_max," N=",N," d_min=",d_min,")"
+        WRITE(*,*) "** Starting Jacobi parallel v2. (and timeing) **"
+        WRITE(*,*) " N=",N, "k_max=",k_max, "N_th=",omp_get_num_threads()," d_min=",d_min
         wall_time = omp_get_wtime()
         !$omp parallel shared(k)
         DO k = 1,k_max
             d = 0d0
-            !$omp do private(i,j,uk,ukp1) reduction(+: d)
+            !$omp do private(i,j,uk,ukp1,fdx2) reduction(+: d)
             DO i=2,N-1
                 DO j=2,N-1
                     ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
@@ -146,15 +148,14 @@ MODULE m_jacobi_solver
             ! Build convergence cretia
             IF (d < d_min.and.(k > 10)) exit
 
-            !$omp master
-            IF (MOD(k,mod_state)==0.and.show_state) THEN
-                WRITE(*,"(A,I6,A,ES8.2E2,A)") " Solution is not converged yet. (k= ",k,", d= ",d,")"
-            end if
-            !$omp end master
+            !IF (MOD(k,mod_state)==0.and.show_state) THEN
+            !    WRITE(*,"(A,I6,A,ES8.2E2,A)") " Solution is not converged yet. (k= ",k,", d= ",d,")"
+            !end if
             uk = ukp1
         end do
         !$omp end parallel
         wall_time = omp_get_wtime()-wall_time
+
         IF (k > k_max) THEN
             WRITE(*,*)
             WRITE(*,*) "!! WARNING: The solver did NOT converge within k_max:", k_max, " !!"

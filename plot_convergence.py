@@ -1,6 +1,7 @@
 import pylab as py
 
 fig_path = r"../Latex/Figures/"
+fig_size = (6,4)
 
 def main():
     Ns = py.array([20,40,80,160,320])
@@ -38,7 +39,7 @@ def main():
     fig.savefig(fig_path+"con.png")
     py.show()
 
-def read_data(filename, header_lines = 9):
+def read_data(filename, header_lines = 10):
 
     data = py.loadtxt(filename, skiprows=header_lines).transpose()
     info = {}
@@ -69,6 +70,7 @@ def isfloat(value):
     return False
 
 def get_data(infos, field):
+    print(infos)
     out = [data[field] for data in infos]
     return(py.array(out))
 
