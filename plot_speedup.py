@@ -23,7 +23,12 @@ def main():
         info[filename]["Wall_time"] = py.array([info[filename][N]["Wall_time"] for N in Ns])
         info[filename]["Sp"] = info[filename]["Wall_time"][0]/info[filename]["Wall_time"]
         info[filename]["T1"] = info[filename]["Wall_time"][0]
+        info[filename]["k"] = info[filename][1]["k"]
+        info[filename]["N"] = info[filename][1]["N"]
+        info[filename]["lat"] = info[filename]["k"]*info[filename]["N"]/info[filename]["Wall_time"]
 
+
+    # Plotting speed up effeciency
     fig, ax = py.subplots(1, 1, figsize=PC.fig_size)
     for filename in info:
         ax.plot(Ns, info[filename]["Sp"], '.-',label=filename +" T1=%1.1e"%info[filename]["T1"])
@@ -33,6 +38,16 @@ def main():
     ax.set_ylabel("S(P)")
     ax.legend()
     py.tight_layout()
+
+    fig, ax = py.subplots(1, 1, figsize=PC.fig_size)
+    for filename in info:
+        ax.plot(Ns, info[filename]["lat"], '.-', label=filename + " T1=%1.1e" % info[filename]["T1"])
+    ax.grid('on')
+    ax.set_xlabel("N threads")
+    ax.set_ylabel(r"$N²k/t_{wall}$ ($\propto FLOPS/s$)")
+    ax.legend()
+    py.tight_layout()
+
     py.show()
 
 if __name__ == "__main__":

@@ -133,7 +133,7 @@ MODULE m_jacobi_solver
         WRITE(*,*) "** Starting Jacobi parallel v2. (and timeing) **"
         WRITE(*,*) " N=",N, "k_max=",k_max, "N_th=",omp_get_num_threads()," d_min=",d_min
         wall_time = omp_get_wtime()
-        !$omp parallel shared(k,uk,ukp1)
+        !$omp parallel shared(k)
         DO k = 1,k_max
             d = 0d0
             !$omp do private(i,j,uk,ukp1) reduction(+: d)
@@ -147,9 +147,9 @@ MODULE m_jacobi_solver
 
             ! Build convergence cretia
             !IF (d < d_min.and.(k > 10)) exit
-            !$omp workshare
-            uk = ukp1
-            !$omp end workshare
+
+            !uk = ukp1
+
         end do
         !$omp end parallel
         wall_time = omp_get_wtime()-wall_time
