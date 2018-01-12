@@ -151,7 +151,10 @@ MODULE m_jacobi_solver
             !IF (MOD(k,mod_state)==0.and.show_state) THEN
             !    WRITE(*,"(A,I6,A,ES8.2E2,A)") " Solution is not converged yet. (k= ",k,", d= ",d,")"
             !end if
+            !
+            !$omp workshare
             uk = ukp1
+            !$omp end workshare
         end do
         !$omp end parallel
         wall_time = omp_get_wtime()-wall_time
