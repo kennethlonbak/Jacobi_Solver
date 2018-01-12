@@ -136,7 +136,7 @@ MODULE m_jacobi_solver
         !$omp parallel shared(k)
         DO k = 1,k_max
             d = 0d0
-            !$omp do private(i,j,uk,ukp1,fdx2) reduction(+: d)
+            !$omp do private(i,j,uk,ukp1) reduction(+: d)
             DO i=2,N-1
                 DO j=2,N-1
                     ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
