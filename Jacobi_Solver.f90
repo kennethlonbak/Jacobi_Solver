@@ -139,17 +139,19 @@ MODULE m_jacobi_solver
             !$omp do reduction(+: d)
             DO i=2,N-1
                 DO j=2,N-1
-                    ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
-                    d = d + (ukp1(i,j)-uk(i,j))**2
+                    IF (MOD(k,2) == 0) THEN
+                        ukp1(i,j) = (uk(i,j-1)+uk(i,j+1)+uk(i-1,j)+uk(i+1,j)+fdx2(i,j))*25d-2
+                        d = d + (ukp1(i,j)-uk(i,j))**2
+                    ELSE
+                        uk(i,j) = (ukp1(i,j-1)+ukp1(i,j+1)+ukp1(i-1,j)+ukp1(i+1,j)+fdx2(i,j))*25d-2
+                        d = d + (uk(i,j)-ukp1(i,j))**2
+                    END IF
                 END DO
             END DO
             !$omp end do
 
             ! Build convergence cretia
             !IF (d < d_min.and.(k > 10)) exit
-            !$omp workshare
-            uk = ukp1
-            !$omp end workshare
 
         end do
         !$omp end parallel
