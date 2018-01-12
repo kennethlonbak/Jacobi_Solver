@@ -14,7 +14,6 @@ MODULE m_jacobi_solver
         INTEGER, OPTIONAL :: mod_state
         INTEGER :: i, j
 
-
         ! Setting optional variabels (Problems with setting default values: "Segmentation fault (core dumped)")
         IF (.NOT.PRESENT(show_state)) show_state = .true.
         IF (.NOT.PRESENT(mod_state)) mod_state = 20
@@ -30,7 +29,7 @@ MODULE m_jacobi_solver
                     d = d + (ukp1(i,j)-uk(i,j))**2
                 END DO
             END DO
-            d = d/N**2
+            d = d
             ! Build convergence cretia
             IF (d < d_min.and.(k > 10)) THEN
                 WRITE(*,*) "The solver converged after: ", k, "Iterations (k_max: ", k_max, ")"

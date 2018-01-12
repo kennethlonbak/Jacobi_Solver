@@ -2,10 +2,10 @@ import pylab as py
 import plot_convergence as PC
 
 def main():
-    filename = "DATA/DATA_N0100_Nt04.dat"
+    filename = "DATA/DATA_N0320.dat"
     # Load data
     print("Reading data file: %s" % filename)
-    info, data = PC.read_data(filename,9)
+    info, data = PC.read_data(filename)
     for field in info:
         print(field + '= ', info[field])
 
@@ -13,7 +13,7 @@ def main():
     dx = 2/(N-1)
     x = py.arange(N)*dx-1
 
-    fig,ax = py.subplots(1,1,figsize=(8,6))
+    fig,ax = py.subplots(1,1,figsize=PC.fig_size)
     pcol = ax.pcolor(x,x,data)
     fig.colorbar(pcol,ax=ax)
     ax.set_xlabel("x")

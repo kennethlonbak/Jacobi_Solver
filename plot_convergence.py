@@ -1,7 +1,7 @@
 import pylab as py
 
 fig_path = r"../Latex/Figures/"
-fig_size = (6,4)
+fig_size = (6,3)
 
 def main():
     Ns = py.array([20,40,80,160,320])
@@ -12,7 +12,7 @@ def main():
         max_error.append([])
         for N in Ns:
             filename = "DATA/%s_N%04d.dat"%(name,N)
-            info, data = read_data(filename)
+            info, data = read_data(filename,9)
             dx = 2/(N-1)
             x = py.arange(N)*dx-1
             x_grid, y_grid = py.meshgrid(x,x)
@@ -24,7 +24,7 @@ def main():
             infos[-1].append(info)
     max_error = py.array(max_error)
 
-    fig,ax = py.subplots(1,1,figsize=(6,4))
+    fig,ax = py.subplots(1,1,figsize=(6,3))
     # Fitting
     for ii, err in enumerate(max_error):
         a, b = py.polyfit(py.log(Ns), py.log(err), 1)
